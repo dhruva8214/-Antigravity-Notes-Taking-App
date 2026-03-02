@@ -5,12 +5,13 @@ import { exportPNG, exportSVG, exportPDF } from '../utils/exportImage';
 import { exportJSON, importJSON } from '../utils/saveLoad';
 import Konva from 'konva';
 import {
-    FiDownload, FiUpload, FiImage, FiCode, FiMenu, FiLogOut, FiUser, FiSun, FiMoon, FiFileText
+    FiDownload, FiUpload, FiImage, FiCode, FiMenu, FiLogOut, FiUser, FiSun, FiMoon, FiFileText, FiCpu
 } from 'react-icons/fi';
 import { useAuthStore } from '../store/authStore';
 import { useThemeStore } from '../store/themeStore';
 import { signOut } from '../firebase/authService';
 import { useNavigate } from 'react-router-dom';
+import CodeToDiagramModal from './CodeToDiagramModal';
 
 interface HeaderProps {
     onToggleSidebar: () => void;
@@ -25,6 +26,7 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar, onOpenTemplates }) => 
     const navigate = useNavigate();
     const [isEditingName, setIsEditingName] = useState(false);
     const [exportOpen, setExportOpen] = useState(false);
+    const [isDiagramModalOpen, setIsDiagramModalOpen] = useState(false);
     const importRef = useRef<HTMLInputElement>(null);
 
     const activeBoard = boards.find(b => b.id === activeBoardId);
@@ -119,6 +121,11 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar, onOpenTemplates }) => 
                     />
                 </label>
 
+                <button className="header-btn" onClick={() => setIsDiagramModalOpen(true)} title="Generate Diagram from Code" id="btn-code-to-diagram">
+                    <FiCpu />
+                    <span>Code → Diagram</span>
+                </button>
+
                 <div className="export-wrapper">
                     <button
                         className="header-btn export-btn"
@@ -164,6 +171,10 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar, onOpenTemplates }) => 
                     </button>
                 </div>
             </div>
+
+            {isDiagramModalOpen && (
+                <CodeToDiagramModal onClose={() => setIsDiagramModalOpen(false)} />
+            )}
         </header>
     );
 };
