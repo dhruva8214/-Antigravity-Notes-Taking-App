@@ -10,6 +10,7 @@ import {
 import { useAuthStore } from '../store/authStore';
 import { useThemeStore } from '../store/themeStore';
 import { signOut } from '../firebase/authService';
+import { useNavigate } from 'react-router-dom';
 
 interface HeaderProps {
     onToggleSidebar: () => void;
@@ -21,6 +22,7 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar, onOpenTemplates }) => 
     const { shapes, loadShapes } = useShapesStore();
     const { user } = useAuthStore();
     const { theme, toggleTheme } = useThemeStore();
+    const navigate = useNavigate();
     const [isEditingName, setIsEditingName] = useState(false);
     const [exportOpen, setExportOpen] = useState(false);
     const importRef = useRef<HTMLInputElement>(null);
@@ -62,7 +64,7 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar, onOpenTemplates }) => 
                 <button className="header-menu-btn" onClick={onToggleSidebar} id="btn-sidebar-toggle">
                     <FiMenu />
                 </button>
-                <div className="header-brand">
+                <div className="header-brand" onClick={() => navigate('/')} style={{ cursor: 'pointer' }} title="Go to Homepage">
                     <span className="header-logo">✦</span>
                     <span className="header-name">Sketchbyte</span>
                 </div>
