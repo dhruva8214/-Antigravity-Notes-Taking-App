@@ -256,6 +256,9 @@ const CanvasStage: React.FC<CanvasStageProps> = ({ containerRef }) => {
                 onMouseDown={handleMouseDown}
                 onMouseMove={handleMouseMove}
                 onMouseUp={handleMouseUp}
+                onTouchStart={handleMouseDown as any}
+                onTouchMove={handleMouseMove as any}
+                onTouchEnd={handleMouseUp as any}
                 x={offset.x} y={offset.y}
                 scaleX={scale} scaleY={scale}
             >
@@ -267,6 +270,7 @@ const CanvasStage: React.FC<CanvasStageProps> = ({ containerRef }) => {
                             stroke: shape.strokeColor, strokeWidth: sw,
                             opacity: shape.opacity,
                             onClick: (e: Konva.KonvaEventObject<MouseEvent>) => handleShapeClick(shape.id, e),
+                            onTap: (e: Konva.KonvaEventObject<Event>) => handleShapeClick(shape.id, e as any),
                             shadowBlur: sel ? 12 : 0, shadowColor: '#a78bfa',
                         };
 
