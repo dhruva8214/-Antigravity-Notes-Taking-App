@@ -5,7 +5,7 @@ import { exportPNG, exportSVG, exportPDF } from '../utils/exportImage';
 import { exportJSON, importJSON } from '../utils/saveLoad';
 import Konva from 'konva';
 import {
-    FiDownload, FiUpload, FiImage, FiCode, FiMenu, FiLogOut, FiUser, FiSun, FiMoon, FiFileText, FiCpu
+    FiDownload, FiUpload, FiImage, FiCode, FiMenu, FiLogOut, FiUser, FiSun, FiMoon, FiFileText, FiCpu, FiBookOpen
 } from 'react-icons/fi';
 import { useAuthStore } from '../store/authStore';
 import { useThemeStore } from '../store/themeStore';
@@ -122,6 +122,11 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar, onOpenTemplates }) => 
                 <button className="header-btn" onClick={() => navigate('/code-to-diagram')} title="Generate Diagram from Code" id="btn-code-to-diagram">
                     <FiCpu />
                     <span>Code → Diagram</span>
+                </button>
+
+                <button className="header-btn" onClick={() => navigate('/study-planner')} title="AI Study Planner" id="btn-study-planner">
+                    <FiBookOpen />
+                    <span>Study Planner</span>
                 </button>
 
                 <div className="export-wrapper">
