@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-    FiArrowLeft, FiCpu, FiCode, FiZap, FiCheck, FiAlertCircle,
+    FiArrowLeft, FiCpu, FiCode, FiCheck, FiAlertCircle,
     FiDownload, FiPlusSquare, FiLayout, FiSave,
 } from 'react-icons/fi';
 import { useShapesStore } from '../store/shapesStore';
@@ -115,7 +115,7 @@ const CodeToDiagramPage: React.FC = () => {
     const navigate = useNavigate();
     const { addShape } = useShapesStore();
     const { theme } = useThemeStore();
-    const { createBoard, updateBoardShapes, setActiveBoard, activeBoardId } = useBoardStore();
+    const { createBoard, updateBoardShapes, setActiveBoard } = useBoardStore();
 
     const [code, setCode] = useState('');
     const [entities, setEntities] = useState<ParsedEntity[]>([]);
