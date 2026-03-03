@@ -11,7 +11,6 @@ import { useAuthStore } from '../store/authStore';
 import { useThemeStore } from '../store/themeStore';
 import { signOut } from '../firebase/authService';
 import { useNavigate } from 'react-router-dom';
-import CodeToDiagramModal from './CodeToDiagramModal';
 
 interface HeaderProps {
     onToggleSidebar: () => void;
@@ -26,7 +25,6 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar, onOpenTemplates }) => 
     const navigate = useNavigate();
     const [isEditingName, setIsEditingName] = useState(false);
     const [exportOpen, setExportOpen] = useState(false);
-    const [isDiagramModalOpen, setIsDiagramModalOpen] = useState(false);
     const importRef = useRef<HTMLInputElement>(null);
 
     const activeBoard = boards.find(b => b.id === activeBoardId);
@@ -121,7 +119,7 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar, onOpenTemplates }) => 
                     />
                 </label>
 
-                <button className="header-btn" onClick={() => setIsDiagramModalOpen(true)} title="Generate Diagram from Code" id="btn-code-to-diagram">
+                <button className="header-btn" onClick={() => navigate('/code-to-diagram')} title="Generate Diagram from Code" id="btn-code-to-diagram">
                     <FiCpu />
                     <span>Code → Diagram</span>
                 </button>
@@ -172,9 +170,6 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar, onOpenTemplates }) => 
                 </div>
             </div>
 
-            {isDiagramModalOpen && (
-                <CodeToDiagramModal onClose={() => setIsDiagramModalOpen(false)} />
-            )}
         </header>
     );
 };

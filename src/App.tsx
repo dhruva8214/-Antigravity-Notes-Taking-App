@@ -4,6 +4,7 @@ import Landing from './pages/Landing';
 import CanvasApp from './pages/CanvasApp';
 import AuthPage from './pages/AuthPage';
 import ProtectedRoute from './components/ProtectedRoute';
+import CodeToDiagramPage from './pages/CodeToDiagramPage';
 import { useThemeStore } from './store/themeStore';
 
 const App: React.FC = () => {
@@ -24,6 +25,11 @@ const App: React.FC = () => {
       <Route path="/canvas" element={
         <ProtectedRoute>
           <CanvasApp />
+        </ProtectedRoute>
+      } />
+      <Route path="/code-to-diagram" element={
+        <ProtectedRoute>
+          <CodeToDiagramPage />
         </ProtectedRoute>
       } />
       <Route path="*" element={<Navigate to="/" replace />} />
