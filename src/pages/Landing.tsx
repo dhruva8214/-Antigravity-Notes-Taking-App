@@ -1,324 +1,286 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useThemeStore } from '../store/themeStore';
-import { FiSun, FiMoon, FiBookOpen, FiCalendar, FiBarChart2, FiZap, FiCheckCircle } from 'react-icons/fi';
+import {
+    FiSun, FiMoon, FiBookOpen, FiCpu, FiZap, FiArrowRight,
+    FiPenTool, FiSave, FiDownload, FiGrid, FiLayout,
+    FiMonitor, FiCommand, FiStar, FiCheck,
+} from 'react-icons/fi';
+
+function useReveal() {
+    const ref = useRef<HTMLDivElement>(null);
+    useEffect(() => {
+        const el = ref.current;
+        if (!el) return;
+        const obs = new IntersectionObserver(
+            ([entry]) => { if (entry.isIntersecting) { el.style.opacity = '1'; el.style.transform = 'translateY(0)'; obs.disconnect(); } },
+            { threshold: 0.1 }
+        );
+        obs.observe(el);
+        return () => obs.disconnect();
+    }, []);
+    return ref;
+}
+
+const ALL_FEATURES = [
+    { icon: <FiPenTool size={22} />, color: '#f59e0b', title: '9 Drawing Tools', desc: 'Rectangle, circle, arrow, pencil, text, eraser, select & pan — all with keyboard shortcuts.' },
+    { icon: <FiSave size={22} />, color: '#34d399', title: 'Auto-Save', desc: 'Everything saved instantly in your browser. No account needed, no data lost.' },
+    { icon: <FiDownload size={22} />, color: '#60a5fa', title: 'Export Anywhere', desc: 'Export as PNG, SVG, PDF, or reusable .antigravity JSON files.' },
+    { icon: <FiGrid size={22} />, color: '#f472b6', title: 'Multiple Boards', desc: 'Create unlimited canvas boards, name them, switch between them in one click.' },
+    { icon: <FiLayout size={22} />, color: '#fb923c', title: 'Dev Templates', desc: 'Ready-to-use flowcharts, DB schema diagrams, and DSA visualization templates.' },
+    { icon: <FiMonitor size={22} />, color: '#a78bfa', title: 'Infinite Canvas', desc: 'Pan, zoom, and draw on an infinite dark canvas with no size restrictions.' },
+    { icon: <FiCommand size={22} />, color: '#67e8f9', title: 'Keyboard Shortcuts', desc: 'Every tool has a hotkey. Ctrl+Z undo, Delete to remove, Ctrl+A select all.' },
+    { icon: <FiStar size={22} />, color: '#fbbf24', title: '100% Free Forever', desc: 'No paywalls, no subscriptions, no gates. Built for students by a student.' },
+];
 
 const Landing: React.FC = () => {
     const navigate = useNavigate();
     const { theme, toggleTheme } = useThemeStore();
+    const heroRef = useReveal();
+    const newRef = useReveal();
+    const allRef = useReveal();
+    const ctaRef = useReveal();
 
     return (
-        <div className="landing">
-            {/* Navigation */}
-            <nav className="landing-nav">
-                <div className="landing-logo">
-                    <span className="logo-icon">✦</span>
-                    <span className="logo-text">Sketchbyte</span>
+        <div style={{ minHeight: '100vh', background: '#0f0e17', color: '#e2e8f0', fontFamily: 'Inter,system-ui,sans-serif', overflowX: 'hidden' }}>
+            <style>{`
+                @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap');
+                *{box-sizing:border-box;}
+                @keyframes orbPulse{0%,100%{opacity:.45;transform:scale(1)}50%{opacity:.65;transform:scale(1.08)}}
+                @keyframes gradText{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+                @keyframes borderGlow{0%,100%{box-shadow:0 0 0 0 rgba(167,139,250,0)}50%{box-shadow:0 0 24px 2px rgba(167,139,250,0.1)}}
+                .reveal{opacity:0;transform:translateY(36px);transition:opacity .65s ease,transform .65s ease;}
+                .sk-nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:62px;background:rgba(15,14,23,.9);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,.06);}
+                .sk-link{padding:6px 14px;border-radius:8px;border:none;background:transparent;color:rgba(148,163,184,.9);cursor:pointer;font-size:14px;font-weight:500;text-decoration:none;font-family:inherit;transition:all .15s;}
+                .sk-link:hover{color:#e2e8f0;background:rgba(255,255,255,.06);}
+                .sk-cta-btn{padding:9px 22px;border-radius:10px;border:none;background:linear-gradient(135deg,#7c3aed,#6d28d9);color:white;cursor:pointer;font-size:14px;font-weight:700;font-family:inherit;box-shadow:0 4px 18px rgba(124,58,237,.4);transition:all .2s;}
+                .sk-cta-btn:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(124,58,237,.55);}
+                .sk-btn-primary{padding:14px 30px;border-radius:12px;border:none;background:linear-gradient(135deg,#7c3aed,#6d28d9);color:white;cursor:pointer;font-size:16px;font-weight:800;font-family:inherit;box-shadow:0 8px 28px rgba(124,58,237,.45);transition:all .2s;}
+                .sk-btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 36px rgba(124,58,237,.6);}
+                .sk-btn-ghost{padding:13px 24px;border-radius:12px;border:2px solid rgba(167,139,250,.3);background:transparent;color:#a78bfa;cursor:pointer;font-size:15px;font-weight:700;font-family:inherit;transition:all .2s;}
+                .sk-btn-ghost:hover{background:rgba(167,139,250,.1);border-color:rgba(167,139,250,.6);}
+                .sk-btn-ghost-cyan{padding:13px 24px;border-radius:12px;border:2px solid rgba(103,232,249,.3);background:transparent;color:#67e8f9;cursor:pointer;font-size:15px;font-weight:700;font-family:inherit;transition:all .2s;}
+                .sk-btn-ghost-cyan:hover{background:rgba(103,232,249,.1);border-color:rgba(103,232,249,.6);}
+                .sk-feat-card{border-radius:16px;padding:22px;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.025);transition:transform .2s,border-color .2s,box-shadow .2s;}
+                .sk-feat-card:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.15);box-shadow:0 12px 36px rgba(0,0,0,.35);}
+                .sk-new-card{border-radius:20px;border:1px solid rgba(255,255,255,.08);background:linear-gradient(145deg,rgba(255,255,255,.04) 0%,rgba(255,255,255,.01) 100%);overflow:hidden;transition:transform .2s,box-shadow .2s;}
+                .sk-new-card:hover{transform:translateY(-5px);}
+                .sk-new-cta-btn{display:flex;align-items:center;gap:8px;margin:4px 24px 24px;padding:12px 20px;border-radius:12px;border:none;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer;transition:all .2s;width:fit-content;}
+                .sk-pill{padding:4px 12px;border-radius:999px;font-size:12px;font-weight:600;border:1px solid;}
+                .sk-mockup{margin:0 20px 24px;border-radius:14px;border:1px solid rgba(255,255,255,.07);overflow:hidden;background:rgba(8,7,18,.8);}
+                .sk-mockup-bar{display:flex;align-items:center;gap:8px;padding:10px 16px;border-bottom:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.02);}
+                .sk-preview-card{border-radius:14px;padding:14px;border:1px solid;animation:borderGlow 3s ease-in-out infinite;}
+            `}</style>
+
+            {/* ── NAV ── */}
+            <nav className="sk-nav">
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontWeight: 800, fontSize: '18px', cursor: 'pointer' }} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+                    <span style={{ background: 'linear-gradient(135deg,#a78bfa,#67e8f9)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontSize: '22px' }}>✦</span>
+                    Sketchbyte
                 </div>
-                <div className="landing-nav-links">
-                    <a href="#features">Features</a>
-                    <a href="#study-planner">Study Planner</a>
-                    <a href="#templates">Templates</a>
-                    <button className="theme-toggle" onClick={toggleTheme} title="Toggle Theme" style={{ background: 'transparent', border: 'none', color: 'var(--text-primary)', cursor: 'pointer', fontSize: '18px', padding: '4px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <a href="#new" className="sk-link">What's New</a>
+                    <a href="#all" className="sk-link">All Features</a>
+                    <button onClick={toggleTheme} className="sk-link" style={{ border: 'none', fontSize: '17px', display: 'flex', cursor: 'pointer' }}>
                         {theme === 'dark' ? <FiSun /> : <FiMoon />}
                     </button>
-                    <button className="nav-cta" onClick={() => navigate('/canvas')} id="nav-cta">
-                        Launch App →
-                    </button>
+                    <button onClick={() => navigate('/canvas')} className="sk-cta-btn">Launch App →</button>
                 </div>
             </nav>
 
-            {/* Hero */}
-            <section className="landing-hero">
-                <div className="hero-badge">🚀 Free • Unlimited • Open Source</div>
-                <h1 className="hero-title">
-                    Think Without
-                    <span className="hero-gradient"> Limits.</span>
-                </h1>
-                <p className="hero-subtitle">
-                    The free, unlimited visual whiteboard built for students and developers.
-                    Diagram, design, and brainstorm — no login, no paywalls, no limits.
-                </p>
-                <div className="hero-actions">
-                    <button className="hero-cta" onClick={() => navigate('/canvas')} id="hero-cta">
-                        Start Drawing — It's Free
-                    </button>
-                    <a href="https://github.com" className="hero-secondary" target="_blank" rel="noopener noreferrer">
-                        ⭐ Star on GitHub
-                    </a>
-                </div>
-                <div className="hero-canvas-preview">
-                    <div className="preview-ui">
-                        <div className="preview-toolbar">
-                            {['▢', '○', '/', '↗', '✏', 'T'].map((icon, i) => (
-                                <div key={i} className="preview-tool">{icon}</div>
-                            ))}
-                        </div>
-                        <div className="preview-canvas">
-                            <div className="preview-shape rect" style={{ left: '10%', top: '15%', width: 120, height: 60 }}>
-                                <span>Start</span>
+            {/* ── HERO ── */}
+            <section style={{ position: 'relative', textAlign: 'center', padding: '100px 24px 80px', overflow: 'hidden' }}>
+                <div style={{ position: 'absolute', width: 520, height: 520, top: '-15%', left: '-10%', borderRadius: '50%', background: 'radial-gradient(circle,rgba(124,58,237,.18) 0%,transparent 70%)', filter: 'blur(72px)', animation: 'orbPulse 6s ease-in-out infinite', pointerEvents: 'none' }} />
+                <div style={{ position: 'absolute', width: 400, height: 400, top: '5%', right: '-8%', borderRadius: '50%', background: 'radial-gradient(circle,rgba(103,232,249,.12) 0%,transparent 70%)', filter: 'blur(72px)', animation: 'orbPulse 8s ease-in-out infinite 2s', pointerEvents: 'none' }} />
+                <div style={{ position: 'absolute', width: 280, height: 280, bottom: '-10%', left: '35%', borderRadius: '50%', background: 'radial-gradient(circle,rgba(251,191,36,.09) 0%,transparent 70%)', filter: 'blur(72px)', animation: 'orbPulse 10s ease-in-out infinite 1s', pointerEvents: 'none' }} />
+
+                <div ref={heroRef} className="reveal">
+                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '6px 16px', borderRadius: '999px', border: '1px solid rgba(167,139,250,.3)', background: 'rgba(167,139,250,.08)', color: '#a78bfa', fontSize: '13px', fontWeight: 600, marginBottom: '24px' }}>
+                        <FiZap size={12} /> Free · Unlimited · Open Source
+                    </div>
+                    <h1 style={{ fontSize: 'clamp(38px,7vw,76px)', fontWeight: 900, lineHeight: 1.05, margin: '0 auto 20px', maxWidth: '820px' }}>
+                        The Visual Workspace<br />
+                        <span style={{ background: 'linear-gradient(135deg,#a78bfa 0%,#67e8f9 40%,#fbbf24 100%)', backgroundSize: '200% 200%', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', animation: 'gradText 4s ease infinite' }}>for Every Student.</span>
+                    </h1>
+                    <p style={{ fontSize: '18px', color: 'rgba(148,163,184,.9)', maxWidth: '540px', margin: '0 auto 36px', lineHeight: 1.65 }}>
+                        Whiteboard · Code Diagrams · AI Study Planner — everything a student needs, 100% free forever.
+                    </p>
+                    <div style={{ display: 'flex', gap: '14px', justifyContent: 'center', flexWrap: 'wrap' }}>
+                        <button className="sk-btn-primary" onClick={() => navigate('/canvas')}>Start Drawing — It's Free</button>
+                        <button className="sk-btn-ghost" onClick={() => navigate('/study-planner')}>
+                            <FiBookOpen size={14} style={{ verticalAlign: 'middle', marginRight: '6px' }} />Study Planner
+                        </button>
+                    </div>
+
+                    {/* Animated diagram preview */}
+                    <div style={{ maxWidth: '780px', margin: '52px auto 0', display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '14px' }}>
+                        {[
+                            { t: '«class»', n: 'User', f: ['id: number', 'name: string', 'email: string'], c: '#a78bfa' },
+                            { t: '«interface»', n: 'Product', f: ['id: string', 'price: number', 'stock: int'], c: '#67e8f9' },
+                            { t: '«struct»', n: 'Order', f: ['orderId: string', 'total: number', 'status: string'], c: '#86efac' },
+                        ].map(card => (
+                            <div key={card.n} className="sk-preview-card" style={{ background: `${card.c}08`, borderColor: `${card.c}28` }}>
+                                <div style={{ fontSize: '10px', fontWeight: 700, color: card.c, opacity: .7, textTransform: 'uppercase', letterSpacing: '.06em', marginBottom: '4px' }}>{card.t}</div>
+                                <div style={{ fontSize: '16px', fontWeight: 800, color: card.c, marginBottom: '8px' }}>{card.n}</div>
+                                {card.f.map(f => <div key={f} style={{ fontSize: '12px', fontFamily: 'monospace', opacity: .65, padding: '3px 0', borderTop: '1px solid rgba(255,255,255,.05)' }}>{f}</div>)}
                             </div>
-                            <div className="preview-arrow" style={{ left: '22%', top: '35%' }}>↓</div>
-                            <div className="preview-shape diamond" style={{ left: '8%', top: '45%', width: 145, height: 55 }}>
-                                <span>Process Data</span>
-                            </div>
-                            <div className="preview-arrow" style={{ left: '22%', top: '63%' }}>↓</div>
-                            <div className="preview-shape rect success" style={{ left: '10%', top: '72%', width: 120, height: 50 }}>
-                                <span>Output</span>
-                            </div>
-                            <div className="preview-shape db" style={{ right: '8%', top: '10%', width: 150, height: 120 }}>
-                                <div className="db-header">📋 Users</div>
-                                <div className="db-row">🔑 id (PK)</div>
-                                <div className="db-row">📝 name</div>
-                                <div className="db-row">📧 email</div>
-                            </div>
-                            <div className="preview-pencil">
-                                <svg width="140" height="60" viewBox="0 0 140 60">
-                                    <path d="M10,50 Q40,10 70,30 Q100,50 130,15" stroke="#a78bfa" strokeWidth="3" fill="none" strokeLinecap="round" />
-                                </svg>
-                            </div>
-                        </div>
+                        ))}
                     </div>
                 </div>
             </section>
 
-            {/* Features */}
-            <section className="landing-features" id="features">
-                <h2>Everything you need. Nothing you don't.</h2>
-                <div className="features-grid">
-                    {[
-                        { icon: '✏️', title: '9 Drawing Tools', desc: 'Rectangle, Circle, Line, Arrow, Pencil, Text, Eraser, Select & Pan' },
-                        { icon: '💾', title: 'Auto-Save', desc: 'Everything saved locally in your browser. No account needed.' },
-                        { icon: '📤', title: 'Export Anywhere', desc: 'Export as PNG, SVG, or save as JSON project files.' },
-                        { icon: '📋', title: 'Multiple Boards', desc: 'Create unlimited boards, switch between them instantly.' },
-                        { icon: '⚡', title: 'Dev Templates', desc: 'Flowcharts, DB schema, and DSA visualization templates.' },
-                        { icon: '🎨', title: 'Infinite Canvas', desc: 'Pan, zoom, and draw on an infinite dark canvas. No limits.' },
-                        { icon: '⌨️', title: 'Keyboard Shortcuts', desc: 'Every tool has a shortcut. Ctrl+Z undo, Delete to remove.' },
-                        { icon: '🆓', title: '100% Free Forever', desc: 'No paywalls, no feature gates. Built for students.' },
-                    ].map((feat) => (
-                        <div key={feat.title} className="feature-card">
-                            <div className="feature-icon">{feat.icon}</div>
-                            <h3>{feat.title}</h3>
-                            <p>{feat.desc}</p>
-                        </div>
-                    ))}
-                </div>
-            </section>
-
-            {/* ── AI STUDY PLANNER SECTION ── */}
-            <section id="study-planner" style={{
-                padding: '80px 24px',
-                background: 'linear-gradient(180deg, var(--bg) 0%, #16103a 50%, var(--bg) 100%)',
-                position: 'relative', overflow: 'hidden',
-            }}>
-                {/* Background glow circles */}
-                <div style={{ position: 'absolute', top: '10%', left: '5%', width: 400, height: 400, borderRadius: '50%', background: 'radial-gradient(circle, rgba(124,58,237,0.12) 0%, transparent 70%)', pointerEvents: 'none' }} />
-                <div style={{ position: 'absolute', bottom: '10%', right: '5%', width: 300, height: 300, borderRadius: '50%', background: 'radial-gradient(circle, rgba(103,232,249,0.08) 0%, transparent 70%)', pointerEvents: 'none' }} />
-
-                <div style={{ maxWidth: '1100px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
-
-                    {/* Section header */}
-                    <div style={{ textAlign: 'center', marginBottom: '56px' }}>
-                        <div style={{
-                            display: 'inline-flex', alignItems: 'center', gap: '8px',
-                            padding: '6px 18px', borderRadius: '999px', marginBottom: '20px',
-                            background: 'rgba(167,139,250,0.12)', border: '1px solid rgba(167,139,250,0.3)',
-                            color: '#a78bfa', fontSize: '13px', fontWeight: 700, letterSpacing: '0.05em',
-                        }}>
-                            <FiZap size={13} /> NEW FEATURE
-                        </div>
-                        <h2 style={{ fontSize: 'clamp(28px, 5vw, 44px)', fontWeight: 900, margin: '0 0 16px', color: 'var(--text-primary)', lineHeight: 1.15 }}>
-                            AI Study Planner
-                            <span style={{
-                                display: 'block', fontSize: 'clamp(28px, 5vw, 44px)',
-                                background: 'linear-gradient(135deg, #a78bfa, #67e8f9)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-                            }}>Built for Students.</span>
-                        </h2>
-                        <p style={{ fontSize: '18px', color: 'var(--text-muted)', maxWidth: '560px', margin: '0 auto', lineHeight: 1.6 }}>
-                            Auto-generate a smart, adaptive study timetable based on your syllabus, exam date, and weak subjects — 100% free, no AI API needed.
-                        </p>
+            {/* ── WHAT'S NEW ── */}
+            <section id="new" style={{ padding: '72px 24px' }}>
+                <div ref={newRef} className="reveal" style={{ maxWidth: '1100px', margin: '0 auto' }}>
+                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '5px 14px', borderRadius: '999px', border: '1px solid rgba(167,139,250,.3)', background: 'rgba(167,139,250,.08)', color: '#a78bfa', fontSize: '12px', fontWeight: 700, letterSpacing: '.06em', textTransform: 'uppercase', marginBottom: '18px' }}>
+                        <FiZap size={12} /> What's New
                     </div>
+                    <h2 style={{ fontSize: 'clamp(26px,4vw,40px)', fontWeight: 900, margin: '0 0 12px' }}>Two Powerful New Features</h2>
+                    <p style={{ color: 'rgba(148,163,184,.85)', fontSize: '16px', maxWidth: '520px', lineHeight: 1.6, margin: '0 0 40px' }}>
+                        Built specifically for students and developers. Both completely free with no sign-up required.
+                    </p>
 
-                    {/* Main feature card + sidebar */}
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '32px', alignItems: 'start' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
 
-                        {/* LEFT — interactive mockup */}
-                        <div style={{
-                            background: 'var(--surface, #1a1535)', borderRadius: '20px', overflow: 'hidden',
-                            border: '1px solid rgba(167,139,250,0.2)', boxShadow: '0 24px 80px rgba(0,0,0,0.4)',
-                        }}>
-                            {/* Mockup header */}
-                            <div style={{ padding: '14px 20px', borderBottom: '1px solid rgba(167,139,250,0.15)', display: 'flex', alignItems: 'center', gap: '12px', background: 'rgba(167,139,250,0.06)' }}>
-                                <FiBookOpen size={16} color="#a78bfa" />
-                                <span style={{ fontWeight: 700, fontSize: '14px', color: 'var(--text-primary, #e2e8f0)' }}>AI Study Planner</span>
-                                <div style={{ marginLeft: 'auto', display: 'flex', gap: '4px' }}>
-                                    {['Create Plan', 'Timetable', 'Dashboard'].map((t, i) => (
-                                        <span key={t} style={{
-                                            padding: '4px 10px', borderRadius: '6px', fontSize: '11px', fontWeight: 600,
-                                            background: i === 1 ? '#7c3aed' : 'transparent',
-                                            color: i === 1 ? 'white' : 'rgba(148,163,184,0.6)',
-                                        }}>{t}</span>
+                        {/* Code → Diagram card */}
+                        <div className="sk-new-card" style={{ boxShadow: '0 24px 60px rgba(167,139,250,.12)', borderColor: 'rgba(167,139,250,.2)' }}>
+                            <div style={{ padding: '28px 28px 18px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', padding: '4px 12px', borderRadius: '999px', background: 'rgba(167,139,250,.12)', color: '#a78bfa', border: '1px solid rgba(167,139,250,.3)', fontSize: '11px', fontWeight: 800, letterSpacing: '.06em', width: 'fit-content' }}>✨ NEW FEATURE</span>
+                                <div style={{ width: '52px', height: '52px', borderRadius: '14px', background: 'rgba(167,139,250,.12)', color: '#a78bfa', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><FiCpu size={26} /></div>
+                                <h3 style={{ fontSize: '22px', fontWeight: 800, margin: 0, color: '#e2e8f0' }}>Code → Diagram</h3>
+                                <p style={{ color: 'rgba(148,163,184,.85)', fontSize: '15px', lineHeight: 1.65, margin: 0 }}>Paste any code and instantly get a visual class diagram on your canvas. Supports 12+ languages including TypeScript, Python, Java, Go, Rust and more.</p>
+                                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '7px' }}>
+                                    {['12+ Languages', 'Auto-parse', 'Save as File', 'Add to Board', 'Class Diagrams'].map(p => (
+                                        <span key={p} className="sk-pill" style={{ background: 'rgba(167,139,250,.08)', color: '#a78bfa', borderColor: 'rgba(167,139,250,.25)' }}>{p}</span>
                                     ))}
                                 </div>
                             </div>
-
-                            {/* Mockup timetable */}
-                            <div style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                                {[
-                                    { date: 'Mon, 3 Mar', tasks: [{ name: 'Data Structures', topic: 'Arrays & Hashing', type: 'study', h: '2h', weak: true }, { name: 'DBMS', topic: 'Normalization', type: 'study', h: '1.5h', weak: false }] },
-                                    { date: 'Tue, 4 Mar', tasks: [{ name: 'All Subjects', topic: 'Spaced Revision', type: 'revision', h: '2h', weak: false }] },
-                                    { date: 'Wed, 5 Mar', tasks: [{ name: 'Data Structures', topic: 'Trees & Graphs', type: 'study', h: '2h', weak: true }, { name: 'OS', topic: 'Scheduling', type: 'study', h: '1h', weak: false }] },
-                                ].map(day => (
-                                    <div key={day.date} style={{ borderRadius: '12px', border: '1px solid rgba(255,255,255,0.07)', padding: '12px', background: 'rgba(255,255,255,0.02)' }}>
-                                        <div style={{ fontSize: '11px', color: '#94a3b8', fontWeight: 700, marginBottom: '8px', letterSpacing: '0.04em' }}>📅 {day.date}</div>
-                                        {day.tasks.map((task, ti) => {
-                                            const colors = { study: { bg: 'rgba(167,139,250,0.12)', text: '#a78bfa', label: 'Study' }, revision: { bg: 'rgba(103,232,249,0.12)', text: '#67e8f9', label: 'Revision' } };
-                                            const c = colors[task.type as 'study' | 'revision'];
-                                            return (
-                                                <div key={ti} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '8px 10px', borderRadius: '8px', background: c.bg, marginBottom: ti < day.tasks.length - 1 ? '6px' : 0 }}>
-                                                    <div style={{ width: '16px', height: '16px', borderRadius: '4px', border: `2px solid ${c.text}`, flexShrink: 0 }} />
-                                                    <div style={{ flex: 1 }}>
-                                                        <div style={{ fontSize: '13px', fontWeight: 600, color: '#e2e8f0' }}>{task.topic}</div>
-                                                        <div style={{ fontSize: '11px', color: '#94a3b8' }}>{task.name} · {task.h}</div>
-                                                    </div>
-                                                    {task.weak && <span style={{ fontSize: '10px', padding: '2px 7px', borderRadius: '999px', background: 'rgba(252,165,165,0.15)', color: '#fca5a5', border: '1px solid #fca5a540' }}>WEAK</span>}
-                                                    <span style={{ fontSize: '10px', padding: '2px 7px', borderRadius: '999px', background: c.bg, color: c.text, border: `1px solid ${c.text}40` }}>{c.label}</span>
-                                                </div>
-                                            );
-                                        })}
+                            <div className="sk-mockup">
+                                <div className="sk-mockup-bar">
+                                    <div style={{ display: 'flex', gap: '5px' }}>
+                                        {['rgba(167,139,250,.5)', 'rgba(167,139,250,.3)', 'rgba(167,139,250,.15)'].map((c, i) => <div key={i} style={{ width: '10px', height: '10px', borderRadius: '50%', background: c }} />)}
                                     </div>
-                                ))}
-
-                                {/* Progress bar preview */}
-                                <div style={{ padding: '12px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.07)', background: 'rgba(255,255,255,0.02)' }}>
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-                                        <span style={{ fontSize: '12px', color: '#94a3b8' }}>📊 Overall Progress</span>
-                                        <span style={{ fontSize: '12px', fontWeight: 700, color: '#a78bfa' }}>42%</span>
-                                    </div>
-                                    <div style={{ height: '8px', background: 'rgba(255,255,255,0.06)', borderRadius: '999px' }}>
-                                        <div style={{ width: '42%', height: '100%', background: 'linear-gradient(90deg, #7c3aed, #a78bfa)', borderRadius: '999px' }} />
-                                    </div>
+                                    <span style={{ fontSize: '12px', color: 'rgba(148,163,184,.4)', fontWeight: 600 }}>animal.py</span>
+                                </div>
+                                <div style={{ padding: '16px', fontFamily: 'monospace', fontSize: '13px', lineHeight: '1.9' }}>
+                                    <div><span style={{ color: '#c084fc' }}>class </span><span style={{ color: '#67e8f9' }}>Animal</span>:</div>
+                                    <div style={{ paddingLeft: '20px' }}>name: <span style={{ color: '#86efac' }}>str</span></div>
+                                    <div style={{ paddingLeft: '20px' }}>age: <span style={{ color: '#86efac' }}>int</span></div>
+                                    <div style={{ paddingLeft: '20px' }}>species: <span style={{ color: '#86efac' }}>str</span></div>
+                                    <div style={{ marginTop: '6px' }}><span style={{ color: '#c084fc' }}>class </span><span style={{ color: '#67e8f9' }}>Dog</span>(<span style={{ color: '#86efac' }}>Animal</span>):</div>
+                                    <div style={{ paddingLeft: '20px' }}>breed: <span style={{ color: '#86efac' }}>str</span></div>
+                                    <div style={{ paddingLeft: '20px' }}>trained: <span style={{ color: '#86efac' }}>bool</span></div>
                                 </div>
                             </div>
+                            <button className="sk-new-cta-btn" onClick={() => navigate('/canvas')}
+                                style={{ background: 'rgba(167,139,250,.1)', color: '#a78bfa', border: '1px solid rgba(167,139,250,.28)' }}
+                                onMouseEnter={e => (e.currentTarget.style.background = 'rgba(167,139,250,.2)')}
+                                onMouseLeave={e => (e.currentTarget.style.background = 'rgba(167,139,250,.1)')}
+                            ><FiCpu size={15} /> Try Code → Diagram <FiArrowRight size={13} /></button>
                         </div>
 
-                        {/* RIGHT — feature list + CTA */}
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', paddingTop: '8px' }}>
-
-                            {[
-                                { icon: <FiZap size={20} color="#fbbf24" />, title: 'Smart Timetable Generator', desc: 'Enter your exam date, subjects, topics, and daily hours. The planner builds your full schedule automatically with balanced distribution.', accent: '#fbbf2420' },
-                                { icon: <FiCalendar size={20} color="#a78bfa" />, title: 'Weak Subject Adaptive', desc: 'Mark subjects as "Weak" or rate topics "Not Confident" — the algorithm automatically allocates more time to areas you need most.', accent: '#a78bfa20' },
-                                { icon: <FiBarChart2 size={20} color="#67e8f9" />, title: 'Spaced Repetition Built-In', desc: 'Revision sessions inserted every 4 study sessions. Final revision block auto-scheduled 2 days before exam day.', accent: '#67e8f920' },
-                                { icon: <FiCheckCircle size={20} color="#86efac" />, title: 'Progress Dashboard & Streak', desc: 'Track overall % done, per-subject progress bars, study streak, and upcoming tasks. Gamified to keep you motivated.', accent: '#86efac20' },
-                            ].map(f => (
-                                <div key={f.title} style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
-                                    <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: f.accent, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, border: '1px solid rgba(255,255,255,0.06)' }}>
-                                        {f.icon}
+                        {/* Study Planner card */}
+                        <div className="sk-new-card" style={{ boxShadow: '0 24px 60px rgba(103,232,249,.08)', borderColor: 'rgba(103,232,249,.18)' }}>
+                            <div style={{ padding: '28px 28px 18px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', padding: '4px 12px', borderRadius: '999px', background: 'rgba(103,232,249,.1)', color: '#67e8f9', border: '1px solid rgba(103,232,249,.3)', fontSize: '11px', fontWeight: 800, letterSpacing: '.06em', width: 'fit-content' }}>✨ NEW FEATURE</span>
+                                <div style={{ width: '52px', height: '52px', borderRadius: '14px', background: 'rgba(103,232,249,.1)', color: '#67e8f9', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><FiBookOpen size={26} /></div>
+                                <h3 style={{ fontSize: '22px', fontWeight: 800, margin: 0, color: '#e2e8f0' }}>AI Study Planner</h3>
+                                <p style={{ color: 'rgba(148,163,184,.85)', fontSize: '15px', lineHeight: 1.65, margin: 0 }}>Auto-generate a smart, personalized timetable. Weak-subject adaptive, spaced repetition built-in, progress dashboard and streak tracker — works 100% offline.</p>
+                                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '7px' }}>
+                                    {['Spaced Repetition', 'Weak Subject Mode', 'Daily Streak', 'Dashboard', '100% Offline'].map(p => (
+                                        <span key={p} className="sk-pill" style={{ background: 'rgba(103,232,249,.08)', color: '#67e8f9', borderColor: 'rgba(103,232,249,.22)' }}>{p}</span>
+                                    ))}
+                                </div>
+                            </div>
+                            <div className="sk-mockup">
+                                <div className="sk-mockup-bar">
+                                    <div style={{ display: 'flex', gap: '5px' }}>
+                                        {['rgba(103,232,249,.5)', 'rgba(103,232,249,.3)', 'rgba(103,232,249,.15)'].map((c, i) => <div key={i} style={{ width: '10px', height: '10px', borderRadius: '50%', background: c }} />)}
                                     </div>
-                                    <div>
-                                        <h3 style={{ margin: '0 0 6px', fontSize: '16px', fontWeight: 700, color: 'var(--text-primary)' }}>{f.title}</h3>
-                                        <p style={{ margin: 0, fontSize: '14px', color: 'var(--text-muted)', lineHeight: 1.6 }}>{f.desc}</p>
+                                    <span style={{ fontSize: '12px', color: 'rgba(148,163,184,.4)', fontWeight: 600 }}>📅 Mon, 3 Mar</span>
+                                </div>
+                                <div style={{ padding: '14px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                                    {[
+                                        { l: 'Data Structures · Arrays', t: '2h', type: 'Study', tc: '#a78bfa', tb: 'rgba(167,139,250,.1)', done: true },
+                                        { l: 'DBMS · Normalization', t: '1.5h', type: 'Study', tc: '#a78bfa', tb: 'rgba(167,139,250,.1)', done: false },
+                                        { l: 'All Subjects Revision', t: '1h', type: 'Revision', tc: '#67e8f9', tb: 'rgba(103,232,249,.1)', done: false },
+                                    ].map((r, i) => (
+                                        <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '9px 12px', borderRadius: '9px', background: r.done ? 'rgba(255,255,255,.02)' : r.tb, opacity: r.done ? .5 : 1 }}>
+                                            <div style={{ width: '16px', height: '16px', borderRadius: '4px', border: `2px solid ${r.done ? '#86efac' : r.tc}`, background: r.done ? 'rgba(134,239,172,.2)' : 'transparent', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                                {r.done && <FiCheck size={10} color="#86efac" />}
+                                            </div>
+                                            <div style={{ flex: 1 }}>
+                                                <div style={{ fontSize: '13px', fontWeight: 600, textDecoration: r.done ? 'line-through' : 'none' }}>{r.l}</div>
+                                                <div style={{ fontSize: '11px', opacity: .55 }}>{r.t}</div>
+                                            </div>
+                                            <span style={{ fontSize: '10px', padding: '2px 8px', borderRadius: '999px', background: r.tb, color: r.tc, border: `1px solid ${r.tc}40` }}>{r.type}</span>
+                                        </div>
+                                    ))}
+                                    <div style={{ marginTop: '4px', padding: '10px', borderRadius: '9px', background: 'rgba(255,255,255,.03)' }}>
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', color: 'rgba(148,163,184,.55)', marginBottom: '6px' }}>
+                                            <span>🔥 3-day streak</span><span style={{ color: '#67e8f9' }}>33% complete</span>
+                                        </div>
+                                        <div style={{ height: '6px', background: 'rgba(255,255,255,.05)', borderRadius: '999px' }}>
+                                            <div style={{ width: '33%', height: '100%', background: 'linear-gradient(90deg,#67e8f9,#a78bfa)', borderRadius: '999px' }} />
+                                        </div>
                                     </div>
                                 </div>
-                            ))}
-
-                            {/* Pill badges */}
-                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', paddingTop: '4px' }}>
-                                {['No AI API needed', '100% Offline', 'localStorage', 'Free forever', 'Whiteboard integration'].map(b => (
-                                    <span key={b} style={{
-                                        padding: '4px 12px', borderRadius: '999px', fontSize: '12px', fontWeight: 600,
-                                        background: 'rgba(167,139,250,0.1)', color: '#a78bfa',
-                                        border: '1px solid rgba(167,139,250,0.25)',
-                                    }}>{b}</span>
-                                ))}
                             </div>
-
-                            {/* CTA buttons */}
-                            <div style={{ display: 'flex', gap: '12px', paddingTop: '8px', flexWrap: 'wrap' }}>
-                                <button onClick={() => navigate('/study-planner')} style={{
-                                    padding: '14px 28px', borderRadius: '12px', border: 'none',
-                                    background: 'linear-gradient(135deg, #7c3aed, #6d28d9)', color: 'white',
-                                    cursor: 'pointer', fontWeight: 800, fontSize: '15px',
-                                    display: 'flex', alignItems: 'center', gap: '8px',
-                                    boxShadow: '0 8px 28px rgba(124,58,237,0.45)',
-                                    transition: 'transform 0.15s, box-shadow 0.15s',
-                                }}
-                                    onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 12px 36px rgba(124,58,237,0.55)'; }}
-                                    onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 8px 28px rgba(124,58,237,0.45)'; }}
-                                    id="planner-cta"
-                                >
-                                    <FiBookOpen size={16} /> Try Study Planner →
-                                </button>
-                                <button onClick={() => navigate('/canvas')} style={{
-                                    padding: '14px 24px', borderRadius: '12px',
-                                    border: '1px solid rgba(167,139,250,0.3)', background: 'transparent',
-                                    color: '#a78bfa', cursor: 'pointer', fontWeight: 700, fontSize: '15px',
-                                    transition: 'all 0.15s',
-                                }}
-                                    onMouseEnter={e => (e.currentTarget.style.background = 'rgba(167,139,250,0.08)')}
-                                    onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
-                                >
-                                    Open Whiteboard ↗
-                                </button>
-                            </div>
+                            <button className="sk-new-cta-btn" onClick={() => navigate('/study-planner')}
+                                style={{ background: 'rgba(103,232,249,.08)', color: '#67e8f9', border: '1px solid rgba(103,232,249,.25)' }}
+                                onMouseEnter={e => (e.currentTarget.style.background = 'rgba(103,232,249,.18)')}
+                                onMouseLeave={e => (e.currentTarget.style.background = 'rgba(103,232,249,.08)')}
+                            ><FiBookOpen size={15} /> Open Study Planner <FiArrowRight size={13} /></button>
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* Templates Preview */}
-            <section className="landing-templates" id="templates">
-                <h2>Developer Templates</h2>
-                <p className="section-sub">Start with purpose-built diagrams for your next project</p>
-                <div className="template-preview-grid">
-                    {[
-                        { emoji: '⚡', name: 'System Design', color: '#a78bfa', desc: 'Flowcharts and architecture diagrams' },
-                        { emoji: '🗄️', name: 'DB Schema', color: '#60a5fa', desc: 'Entity-relationship diagrams' },
-                        { emoji: '🧮', name: 'DSA Visualization', color: '#34d399', desc: 'Arrays, stacks, trees & more' },
-                    ].map(t => (
-                        <div key={t.name} className="template-preview-card" style={{ '--accent': t.color } as React.CSSProperties}>
-                            <div className="tp-icon">{t.emoji}</div>
-                            <h3>{t.name}</h3>
-                            <p>{t.desc}</p>
-                        </div>
-                    ))}
+            {/* ── ALL FEATURES ── */}
+            <section id="all" style={{ padding: '0 24px 80px' }}>
+                <div ref={allRef} className="reveal" style={{ maxWidth: '1100px', margin: '0 auto' }}>
+                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '5px 14px', borderRadius: '999px', border: '1px solid rgba(167,139,250,.3)', background: 'rgba(167,139,250,.08)', color: '#a78bfa', fontSize: '12px', fontWeight: 700, letterSpacing: '.06em', textTransform: 'uppercase', marginBottom: '18px' }}>
+                        <FiGrid size={12} /> All Features
+                    </div>
+                    <h2 style={{ fontSize: 'clamp(26px,4vw,40px)', fontWeight: 900, margin: '0 0 12px' }}>Everything You Need. Nothing You Don't.</h2>
+                    <p style={{ color: 'rgba(148,163,184,.85)', fontSize: '16px', maxWidth: '500px', lineHeight: 1.6, margin: '0 0 36px' }}>Built for students, loved by developers. Every feature ships free, forever.</p>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '16px' }}>
+                        {ALL_FEATURES.map(f => (
+                            <div key={f.title} className="sk-feat-card">
+                                <div style={{ width: '42px', height: '42px', borderRadius: '12px', background: `${f.color}15`, color: f.color, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '14px' }}>{f.icon}</div>
+                                <h3 style={{ fontSize: '15px', fontWeight: 700, margin: '0 0 7px', color: '#e2e8f0' }}>{f.title}</h3>
+                                <p style={{ fontSize: '13px', color: 'rgba(148,163,184,.8)', lineHeight: 1.6, margin: 0 }}>{f.desc}</p>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </section>
 
-            {/* Final CTA */}
-            <section className="landing-cta-section">
-                <h2>Ready to think without limits?</h2>
-                <p>No sign-up. No credit card. Just open and start drawing.</p>
-                <div style={{ display: 'flex', gap: '14px', justifyContent: 'center', flexWrap: 'wrap' }}>
-                    <button className="hero-cta" onClick={() => navigate('/canvas')} id="final-cta">
-                        Open Whiteboard →
-                    </button>
-                    <button onClick={() => navigate('/study-planner')} style={{
-                        padding: '14px 28px', borderRadius: '12px',
-                        border: '2px solid rgba(167,139,250,0.4)', background: 'transparent',
-                        color: '#a78bfa', cursor: 'pointer', fontWeight: 700, fontSize: '15px',
-                        display: 'flex', alignItems: 'center', gap: '8px',
-                    }}
-                        id="final-planner-cta"
-                        onMouseEnter={e => (e.currentTarget.style.background = 'rgba(167,139,250,0.1)')}
-                        onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
-                    >
-                        <FiBookOpen size={15} /> Try Study Planner
-                    </button>
+            {/* ── FINAL CTA ── */}
+            <div style={{ padding: '0 24px 80px', maxWidth: '1100px', margin: '0 auto' }}>
+                <div ref={ctaRef} className="reveal" style={{ borderRadius: '24px', padding: '64px 48px', background: 'linear-gradient(135deg,#16103a 0%,#0f1729 100%)', border: '1px solid rgba(167,139,250,.18)', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+                    <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 50% 0%,rgba(124,58,237,.2) 0%,transparent 60%)', pointerEvents: 'none' }} />
+                    <h2 style={{ fontSize: 'clamp(26px,4vw,42px)', fontWeight: 900, margin: '0 0 14px', position: 'relative' }}>Your Complete Visual Study Ecosystem.</h2>
+                    <p style={{ fontSize: '16px', color: 'rgba(148,163,184,.85)', margin: '0 auto 32px', maxWidth: '460px', position: 'relative' }}>Whiteboard · Code Diagrams · Study Planner · Export — all in one place, all free.</p>
+                    <div style={{ display: 'flex', gap: '14px', justifyContent: 'center', flexWrap: 'wrap', position: 'relative' }}>
+                        <button className="sk-btn-primary" onClick={() => navigate('/canvas')}>Open Whiteboard →</button>
+                        <button className="sk-btn-ghost" onClick={() => navigate('/study-planner')}>
+                            <FiBookOpen size={14} style={{ verticalAlign: 'middle', marginRight: '6px' }} />Study Planner
+                        </button>
+                        <button className="sk-btn-ghost" onClick={() => navigate('/canvas')} style={{ color: '#a78bfa', borderColor: 'rgba(167,139,250,.35)' }}>
+                            <FiCpu size={14} style={{ verticalAlign: 'middle', marginRight: '6px' }} />Code → Diagram
+                        </button>
+                    </div>
                 </div>
-            </section>
+            </div>
 
-            {/* Footer */}
-            <footer className="landing-footer">
-                <div className="footer-brand">
-                    <span className="logo-icon">✦</span>
-                    <span>Sketchbyte</span>
+            {/* ── FOOTER ── */}
+            <footer style={{ textAlign: 'center', padding: '36px 24px', borderTop: '1px solid rgba(255,255,255,.06)', color: 'rgba(148,163,184,.5)', fontSize: '13px' }}>
+                <div style={{ fontSize: '18px', fontWeight: 800, marginBottom: '8px' }}>
+                    ✦ <span style={{ background: 'linear-gradient(135deg,#a78bfa,#67e8f9)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Sketchbyte</span>
                 </div>
-                <p>Built with ❤️ for students and coders. Free forever.</p>
-                <p className="footer-founder">
-                    Founded by <span className="founder-name">Dhruva M</span>
-                </p>
-                <p className="footer-tagline">Think Without Limits.</p>
+                <p style={{ margin: '0 0 4px' }}>Built with ❤️ for students and coders · Free forever</p>
+                <p style={{ margin: 0 }}>Founded by <strong style={{ color: 'rgba(167,139,250,.8)' }}>Dhruva M</strong> · Think Without Limits.</p>
             </footer>
         </div>
     );
