@@ -22,3 +22,9 @@ npm-debug.log*
 
 # TypeScript build info
 *.tsbuildinfo
+
+# Android signing — NEVER commit these!
+*.keystore
+*.jks
+keystore-base64.txt
+android-twa/

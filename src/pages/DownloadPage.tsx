@@ -391,7 +391,124 @@ const DownloadPage: React.FC = () => {
                 </div>
             </section>
 
+            {/* ── STORE PUBLISHING SECTION ── */}
+            <section id="stores" style={{ padding: '0 24px 80px', maxWidth: '1100px', margin: '0 auto' }}>
+                <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '5px 14px', borderRadius: '999px', border: '1px solid rgba(251,191,36,.3)', background: 'rgba(251,191,36,.08)', color: '#fbbf24', fontSize: '12px', fontWeight: 700, letterSpacing: '.06em', textTransform: 'uppercase', marginBottom: '16px' }}>
+                        🏪 App Stores
+                    </div>
+                    <h2 style={{ fontSize: 'clamp(24px,4vw,38px)', fontWeight: 900, margin: '0 0 12px' }}>Available on These Stores</h2>
+                    <p style={{ color: 'rgba(148,163,184,.8)', fontSize: '15px', maxWidth: '480px', margin: '0 auto', lineHeight: 1.65 }}>
+                        Download the APK directly or find Sketchbyte on popular Android app stores.
+                    </p>
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '20px' }}>
+
+                    {/* GitHub Releases */}
+                    <div style={{ borderRadius: '20px', border: '1px solid rgba(226,232,240,.12)', background: 'linear-gradient(145deg,rgba(255,255,255,.04),rgba(255,255,255,.01))', padding: '28px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                            <div style={{ width: '52px', height: '52px', borderRadius: '14px', background: 'rgba(226,232,240,.08)', border: '1px solid rgba(226,232,240,.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '28px' }}>🐙</div>
+                            <div>
+                                <div style={{ fontSize: '18px', fontWeight: 800, color: '#e2e8f0' }}>GitHub Releases</div>
+                                <span style={{ display: 'inline-flex', padding: '2px 8px', borderRadius: '999px', background: 'rgba(226,232,240,.08)', color: 'rgba(226,232,240,.6)', border: '1px solid rgba(226,232,240,.12)', fontSize: '11px', fontWeight: 700 }}>AUTO-BUILT</span>
+                            </div>
+                        </div>
+                        <p style={{ fontSize: '13px', color: 'rgba(148,163,184,.8)', lineHeight: 1.65, margin: 0 }}>
+                            Every release tag (e.g. <code style={{ background: 'rgba(255,255,255,.07)', padding: '1px 6px', borderRadius: '4px', fontSize: '12px' }}>v1.0.0</code>) automatically builds a signed APK and publishes it as a GitHub Release using our CI workflow.
+                        </p>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                            {['Push a git tag: git tag v1.0.0', 'GitHub Actions builds the APK', 'Download .apk from Releases tab'].map((s, i) => (
+                                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13px', color: 'rgba(148,163,184,.8)' }}>
+                                    <span style={{ width: '20px', height: '20px', borderRadius: '50%', background: 'rgba(226,232,240,.08)', border: '1px solid rgba(226,232,240,.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', fontWeight: 800, flexShrink: 0, color: '#e2e8f0' }}>{i + 1}</span>
+                                    {s}
+                                </div>
+                            ))}
+                        </div>
+                        <a href="https://github.com/dhruva8214/-Antigravity-Notes-Taking-App/releases" target="_blank" rel="noopener noreferrer"
+                            style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '11px 18px', borderRadius: '10px', border: '1px solid rgba(226,232,240,.18)', background: 'rgba(226,232,240,.05)', color: '#e2e8f0', textDecoration: 'none', fontSize: '13px', fontWeight: 700, transition: 'all .2s', marginTop: 'auto' }}
+                            onMouseEnter={e => e.currentTarget.style.background = 'rgba(226,232,240,.1)'}
+                            onMouseLeave={e => e.currentTarget.style.background = 'rgba(226,232,240,.05)'}
+                        >
+                            🔗 View GitHub Releases →
+                        </a>
+                    </div>
+
+                    {/* Aptoide */}
+                    <div style={{ borderRadius: '20px', border: '1px solid rgba(251,146,60,.18)', background: 'linear-gradient(145deg,rgba(251,146,60,.07),rgba(251,146,60,.01))', padding: '28px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                            <div style={{ width: '52px', height: '52px', borderRadius: '14px', background: 'rgba(251,146,60,.1)', border: '1px solid rgba(251,146,60,.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '28px' }}>🟠</div>
+                            <div>
+                                <div style={{ fontSize: '18px', fontWeight: 800, color: '#e2e8f0' }}>Aptoide</div>
+                                <span style={{ display: 'inline-flex', padding: '2px 8px', borderRadius: '999px', background: 'rgba(251,146,60,.1)', color: '#fb923c', border: '1px solid rgba(251,146,60,.25)', fontSize: '11px', fontWeight: 700 }}>FREE TO PUBLISH</span>
+                            </div>
+                        </div>
+                        <p style={{ fontSize: '13px', color: 'rgba(148,163,184,.8)', lineHeight: 1.65, margin: 0 }}>
+                            Aptoide is the largest alternative Android app store with 300M+ users. Submit your APK through their developer portal — no fees, no approval delay.
+                        </p>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                            {['Create account at aptoide.com/dev', 'Upload your signed .apk file', 'Fill in app name, description, icon', 'Publish — live within minutes'].map((s, i) => (
+                                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13px', color: 'rgba(148,163,184,.8)' }}>
+                                    <span style={{ width: '20px', height: '20px', borderRadius: '50%', background: 'rgba(251,146,60,.1)', border: '1px solid rgba(251,146,60,.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', fontWeight: 800, flexShrink: 0, color: '#fb923c' }}>{i + 1}</span>
+                                    {s}
+                                </div>
+                            ))}
+                        </div>
+                        <a href="https://www.aptoide.com/developer" target="_blank" rel="noopener noreferrer"
+                            style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '11px 18px', borderRadius: '10px', border: '1px solid rgba(251,146,60,.22)', background: 'rgba(251,146,60,.06)', color: '#fb923c', textDecoration: 'none', fontSize: '13px', fontWeight: 700, transition: 'all .2s', marginTop: 'auto' }}
+                            onMouseEnter={e => e.currentTarget.style.background = 'rgba(251,146,60,.14)'}
+                            onMouseLeave={e => e.currentTarget.style.background = 'rgba(251,146,60,.06)'}
+                        >
+                            🔗 Go to Aptoide Developer Portal →
+                        </a>
+                    </div>
+
+                    {/* APKPure */}
+                    <div style={{ borderRadius: '20px', border: '1px solid rgba(103,232,249,.18)', background: 'linear-gradient(145deg,rgba(103,232,249,.07),rgba(103,232,249,.01))', padding: '28px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                            <div style={{ width: '52px', height: '52px', borderRadius: '14px', background: 'rgba(103,232,249,.1)', border: '1px solid rgba(103,232,249,.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '28px' }}>🔵</div>
+                            <div>
+                                <div style={{ fontSize: '18px', fontWeight: 800, color: '#e2e8f0' }}>APKPure</div>
+                                <span style={{ display: 'inline-flex', padding: '2px 8px', borderRadius: '999px', background: 'rgba(103,232,249,.1)', color: '#67e8f9', border: '1px solid rgba(103,232,249,.25)', fontSize: '11px', fontWeight: 700 }}>500M+ USERS</span>
+                            </div>
+                        </div>
+                        <p style={{ fontSize: '13px', color: 'rgba(148,163,184,.8)', lineHeight: 1.65, margin: 0 }}>
+                            APKPure is one of the most visited Android app sites worldwide. Upload your APK through their developer program to reach millions of Android users.
+                        </p>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                            {['Register at developer.apkpure.com', 'Submit your signed .apk file', 'Add screenshots + description', 'Review takes 1–3 business days'].map((s, i) => (
+                                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13px', color: 'rgba(148,163,184,.8)' }}>
+                                    <span style={{ width: '20px', height: '20px', borderRadius: '50%', background: 'rgba(103,232,249,.1)', border: '1px solid rgba(103,232,249,.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', fontWeight: 800, flexShrink: 0, color: '#67e8f9' }}>{i + 1}</span>
+                                    {s}
+                                </div>
+                            ))}
+                        </div>
+                        <a href="https://developer.apkpure.com" target="_blank" rel="noopener noreferrer"
+                            style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '11px 18px', borderRadius: '10px', border: '1px solid rgba(103,232,249,.22)', background: 'rgba(103,232,249,.06)', color: '#67e8f9', textDecoration: 'none', fontSize: '13px', fontWeight: 700, transition: 'all .2s', marginTop: 'auto' }}
+                            onMouseEnter={e => e.currentTarget.style.background = 'rgba(103,232,249,.14)'}
+                            onMouseLeave={e => e.currentTarget.style.background = 'rgba(103,232,249,.06)'}
+                        >
+                            🔗 Go to APKPure Developer Portal →
+                        </a>
+                    </div>
+                </div>
+
+                {/* Instructions banner */}
+                <div style={{ marginTop: '24px', padding: '20px 24px', borderRadius: '14px', border: '1px solid rgba(251,191,36,.18)', background: 'rgba(251,191,36,.05)', display: 'flex', alignItems: 'flex-start', gap: '14px' }}>
+                    <span style={{ fontSize: '22px', flexShrink: 0 }}>💡</span>
+                    <div>
+                        <div style={{ fontWeight: 700, fontSize: '14px', color: '#fbbf24', marginBottom: '4px' }}>How to get your APK</div>
+                        <div style={{ fontSize: '13px', color: 'rgba(148,163,184,.8)', lineHeight: 1.65 }}>
+                            Run <code style={{ background: 'rgba(255,255,255,.06)', padding: '1px 6px', borderRadius: '4px' }}>scripts/generate-keystore.ps1</code> to create your signing key,
+                            add the 4 GitHub Secrets it generates, then push a version tag: <code style={{ background: 'rgba(255,255,255,.06)', padding: '1px 6px', borderRadius: '4px' }}>git tag v1.0.0 &amp;&amp; git push origin v1.0.0</code>.
+                            Your signed APK will appear in <strong style={{ color: '#e2e8f0' }}>GitHub Releases</strong> within ~5 minutes.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             {/* FAQ */}
+
             <section style={{ padding: '0 24px 80px', maxWidth: '760px', margin: '0 auto' }}>
                 <div ref={faqRef} className="reveal">
                     <div style={{ textAlign: 'center', marginBottom: '36px' }}>

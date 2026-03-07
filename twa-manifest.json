@@ -1,0 +1,43 @@
+{
+    "packageId": "com.sketchbyte.app",
+    "host": "sketchbyte.vercel.app",
+    "name": "Sketchbyte",
+    "launcherName": "Sketchbyte",
+    "display": "standalone",
+    "orientation": "any",
+    "themeColor": "#0f0e17",
+    "navigationColor": "#0f0e17",
+    "navigationColorDark": "#0f0e17",
+    "backgroundColor": "#0f0e17",
+    "startUrl": "/",
+    "iconUrl": "https://sketchbyte.vercel.app/icon-512.png",
+    "splashScreenFadeOutDuration": 300,
+    "signingKey": {
+        "path": "./sketchbyte.keystore",
+        "alias": "sketchbyte"
+    },
+    "appVersionName": "1.0.0",
+    "appVersionCode": 1,
+    "shortcuts": [],
+    "generatorApp": "bubblewrap-cli",
+    "sdkVersion": {
+        "minSdkVersion": 21,
+        "compileSdkVersion": 34,
+        "targetSdkVersion": 34
+    },
+    "enableNotifications": false,
+    "features": {
+        "locationDelegation": {
+            "enabled": false
+        },
+        "playBilling": {
+            "enabled": false
+        }
+    },
+    "enableSiteSettingsShortcut": true,
+    "isChromeOSOnly": false,
+    "isMetaQuest": false,
+    "fullScopeUrl": "https://sketchbyte.vercel.app/",
+    "minSdkVersion": 21,
+    "fingerprints": []
+}

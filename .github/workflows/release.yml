@@ -1,0 +1,102 @@
+name: Build & Release Android APK
+
+on:
+  push:
+    tags:
+      - 'v*'           # Triggers on any tag like v1.0.0, v1.2.3
+  workflow_dispatch:   # Manual trigger from GitHub UI
+
+permissions:
+  contents: write      # Needed to create GitHub Releases
+
+jobs:
+  build-apk:
+    name: Build Signed APK
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout repository
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # 2. Set up Java 17 (required by Bubblewrap / Android SDK)
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      # 3. Set up Android SDK
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      # 4. Install Bubblewrap CLI
+      - name: Install Bubblewrap CLI
+        run: npm install -g @bubblewrap/cli
+
+      # 5. Decode the keystore from GitHub Secret
+      - name: Decode Keystore
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > sketchbyte.keystore
+
+      # 6. Initialize Bubblewrap project from twa-manifest.json
+      - name: Initialize TWA Project
+        run: |
+          bubblewrap init --manifest=./twa-manifest.json --directory=./android-twa
+        env:
+          JAVA_HOME: ${{ env.JAVA_HOME }}
+
+      # 7. Build the APK (unsigned first)
+      - name: Build APK
+        working-directory: ./android-twa
+        run: |
+          bubblewrap build \
+            --signingKeyPath=../sketchbyte.keystore \
+            --signingKeyAlias="${{ secrets.KEY_ALIAS }}" \
+            --ks-pass="pass:${{ secrets.KEYSTORE_PASSWORD }}" \
+            --key-pass="pass:${{ secrets.KEY_PASSWORD }}"
+
+      # 8. Find the built APK
+      - name: Find APK
+        id: apk
+        run: |
+          APK_PATH=$(find ./android-twa -name "*.apk" | head -1)
+          echo "path=$APK_PATH" >> $GITHUB_OUTPUT
+          echo "Found APK: $APK_PATH"
+
+      # 9. Rename APK to a clean filename
+      - name: Rename APK
+        run: |
+          VERSION=${{ github.ref_name }}
+          cp "${{ steps.apk.outputs.path }}" "sketchbyte-${VERSION}.apk"
+
+      # 10. Create GitHub Release and upload the APK
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "Sketchbyte ${{ github.ref_name }}"
+          tag_name: ${{ github.ref_name }}
+          body: |
+            ## 📱 Sketchbyte ${{ github.ref_name }} — Android APK
+
+            ### What's New
+            - Whiteboard, Code Diagrams & AI Study Planner
+            - Offline-capable via PWA technology
+            - Install directly without Google Play Store
+
+            ### Installation
+            1. Download `sketchbyte-${{ github.ref_name }}.apk` below
+            2. On your Android device, enable **Settings → Install unknown apps**
+            3. Tap the downloaded APK to install
+            4. Open Sketchbyte from your app drawer 🎉
+
+            ### Also available on
+            - [Aptoide](https://www.aptoide.com/)
+            - [APKPure](https://apkpure.com/)
+            - [Web App](https://sketchbyte.vercel.app) (no install needed)
+          files: |
+            sketchbyte-${{ github.ref_name }}.apk
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
