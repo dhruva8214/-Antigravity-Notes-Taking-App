@@ -81,6 +81,7 @@ const Landing: React.FC = () => {
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                     <a href="#new" className="sk-link">What's New</a>
                     <a href="#all" className="sk-link">All Features</a>
+                    <button onClick={() => navigate('/download')} className="sk-link" style={{ color: '#86efac' }}>[App] Download App</button>
                     <button onClick={toggleTheme} className="sk-link" style={{ border: 'none', fontSize: '17px', display: 'flex', cursor: 'pointer' }}>
                         {theme === 'dark' ? <FiSun /> : <FiMoon />}
                     </button>
@@ -255,6 +256,31 @@ const Landing: React.FC = () => {
                     </div>
                 </div>
             </section>
+
+            {/* GET THE APP */}
+            <div style={{ padding: '0 24px 64px', maxWidth: '1100px', margin: '0 auto' }}>
+                <div style={{ borderRadius: '20px', padding: '40px 48px', background: 'linear-gradient(135deg,rgba(134,239,172,.07) 0%,rgba(103,232,249,.04) 100%)', border: '1px solid rgba(134,239,172,.18)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '24px', position: 'relative', overflow: 'hidden' }}>
+                    <div style={{ position: 'absolute', width: 260, height: 260, top: '-30%', right: '5%', borderRadius: '50%', background: 'radial-gradient(circle,rgba(134,239,172,.1) 0%,transparent 70%)', filter: 'blur(50px)', pointerEvents: 'none' }} />
+                    <div style={{ position: 'relative' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
+                            <span style={{ fontSize: '18px', fontWeight: 'bold', color: '#86efac' }}>[Mobile]</span>
+                            <span style={{ display: 'inline-flex', alignItems: 'center', padding: '3px 10px', borderRadius: '999px', background: 'rgba(134,239,172,.12)', color: '#86efac', border: '1px solid rgba(134,239,172,.3)', fontSize: '11px', fontWeight: 800 }}>APK</span>
+                        </div>
+                        <h3 style={{ fontSize: 'clamp(20px,3vw,28px)', fontWeight: 900, margin: '0 0 8px' }}>Available on Android App</h3>
+                        <p style={{ color: 'rgba(148,163,184,.8)', fontSize: '14px', margin: 0, maxWidth: '440px', lineHeight: 1.65 }}>Download the Sketchbyte Android APK directly from GitHub.</p>
+                    </div>
+                    <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', position: 'relative' }}>
+                        <button
+                            onClick={() => navigate('/download')}
+                            style={{ padding: '13px 26px', borderRadius: '12px', border: 'none', background: 'linear-gradient(135deg,#16a34a,#15803d)', color: 'white', cursor: 'pointer', fontSize: '15px', fontWeight: 800, fontFamily: 'inherit', boxShadow: '0 6px 24px rgba(22,163,74,.35)', transition: 'all .2s', display: 'flex', alignItems: 'center', gap: '8px' }}
+                            onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 10px 32px rgba(22,163,74,.5)'; }}
+                            onMouseLeave={e => { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = '0 6px 24px rgba(22,163,74,.35)'; }}
+                        >
+                            [App] Download App
+                        </button>
+                    </div>
+                </div>
+            </div>
 
             {/* FINAL CTA */}
             <div style={{ padding: '0 24px 80px', maxWidth: '1100px', margin: '0 auto' }}>
