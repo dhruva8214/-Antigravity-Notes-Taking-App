@@ -29,7 +29,7 @@ const platforms = [
         badgeBg: 'rgba(134,239,172,.12)',
         badgeColor: '#86efac',
         badgeBorder: 'rgba(134,239,172,.3)',
-        subtitle: 'Install via Chrome or download APK',
+        subtitle: 'Install via Chrome or Tap to Install',
         steps: [
             { icon: '1', title: 'Open in Chrome', desc: 'Visit sketchbyte.vercel.app in Google Chrome on your Android device.' },
             { icon: '2', title: 'Tap Menu (â‹®)', desc: 'Tap the three-dot menu in the top-right corner of Chrome.' },
@@ -291,13 +291,13 @@ const DownloadPage: React.FC = () => {
                             </button>
                             {selectedPlatform.id === 'android' && (
                                 <a
-                                    href="https://www.pwabuilder.com/"
+                                    href="https://github.com/dhruva8214/Sketchbyte-Notes-Taking-App/releases"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="dl-btn-ghost"
                                     style={{ textDecoration: 'none', color: '#86efac', borderColor: 'rgba(134,239,172,.3)' }}
                                 >
-                                    ðŸ“¦ Generate APK (PWABuilder)
+                                    ðŸ“¦ Download APK from GitHub Releases
                                 </a>
                             )}
                         </div>
@@ -318,19 +318,18 @@ const DownloadPage: React.FC = () => {
                             </span>
                         </div>
                         <h2 style={{ fontSize: 'clamp(22px,3.5vw,34px)', fontWeight: 900, margin: '0 0 12px', position: 'relative' }}>
-                            Want a real APK file for Android?
+                            Download the Android APK
                         </h2>
                         <p style={{ color: 'rgba(148,163,184,.85)', fontSize: '15px', maxWidth: '560px', lineHeight: 1.7, marginBottom: '32px', position: 'relative' }}>
-                            Use <strong style={{ color: '#86efac' }}>PWABuilder</strong> â€” a free tool by Microsoft â€” to generate a real Android APK from Sketchbyte's live URL. Install it directly on any Android device without Google Play.
-                        </p>
+                            Get the latest signed APK directly from <strong style={{ color: '#86efac' }}>GitHub Releases</strong> — built automatically by our CI pipeline, always the latest version. Install directly on any Android device without Google Play.</p>
 
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '32px', position: 'relative' }}>
                             {[
-                                { n: '1', t: 'Go to PWABuilder', d: 'Visit pwabuilder.com â€” it\'s free, made by Microsoft.' },
-                                { n: '2', t: 'Enter our URL', d: 'Paste: https://sketchbyte.vercel.app and click Start.' },
-                                { n: '3', t: 'Select Android', d: 'Choose "Android" from the package options.' },
-                                { n: '4', t: 'Download APK', d: 'Click Generate â†’ Download. You get a real .apk file.' },
-                                { n: '5', t: 'Install on Android', d: 'Enable "Install from unknown sources" in Settings and tap the APK to install.' },
+                                { n: '1', t: 'Go to GitHub Releases', d: 'Click the button below to open the GitHub Releases page.' },
+                                { n: '2', t: 'Download the APK', d: 'Click the latest .apk file to download it to your Android device.' },
+                                { n: '3', t: 'Allow Unknown Sources', d: 'On your Android phone go to Settings and enable Install unknown apps.' },
+                                { n: '4', t: 'Tap to Install', d: 'Open the downloaded .apk file and tap Install to complete setup.' },
+                                { n: '5', t: 'Launch and Enjoy!', d: 'Open Sketchbyte from your app drawer and start learning!' },
                             ].map(step => (
                                 <div key={step.n} className="apk-step">
                                     <div style={{ width: '30px', height: '30px', borderRadius: '8px', background: 'rgba(134,239,172,.15)', border: '1px solid rgba(134,239,172,.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '13px', fontWeight: 800, color: '#86efac', flexShrink: 0 }}>
@@ -345,13 +344,13 @@ const DownloadPage: React.FC = () => {
                         </div>
 
                         <a
-                            href="https://www.pwabuilder.com/"
+                            href="https://github.com/dhruva8214/Sketchbyte-Notes-Taking-App/releases"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="dl-btn-primary"
                             style={{ textDecoration: 'none', background: 'linear-gradient(135deg,#16a34a,#15803d)' }}
                         >
-                            ðŸ“¦ Generate APK with PWABuilder â†’
+                            ðŸ“¦ Download APK from GitHub Releases â†’
                         </a>
                     </div>
                 </div>
@@ -571,4 +570,6 @@ const DownloadPage: React.FC = () => {
 };
 
 export default DownloadPage;
+
+
 
