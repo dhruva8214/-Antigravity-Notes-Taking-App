@@ -53,7 +53,7 @@ function parseFlashcardsFromText(raw: string): Flashcard[] {
 
 export async function generateFlashcards(
     notesText: string,
-    apiKey: string,
+    apiKey: string = import.meta.env.VITE_GROQ_API_KEY ?? '',
     cardCount: number = 12
 ): Promise<Flashcard[]> {
     if (!apiKey.trim()) throw new Error('Please enter your Groq API key.');

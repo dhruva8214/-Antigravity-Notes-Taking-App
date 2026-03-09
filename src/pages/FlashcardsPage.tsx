@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import {
     FiArrowLeft, FiZap, FiTrash2, FiPlus, FiChevronLeft,
     FiChevronRight, FiDownload, FiCheck, FiX,
-    FiBook, FiStar, FiRefreshCw, FiAlertTriangle, FiKey,
+    FiBook, FiStar, FiRefreshCw, FiAlertTriangle,
 } from 'react-icons/fi';
 import { useFlashcardsStore } from '../store/flashcardsStore';
 import { generateFlashcards } from '../utils/groqFlashcards';
@@ -153,8 +153,6 @@ const FlashcardsPage: React.FC = () => {
     // Generate tab state
     const [notes, setNotes] = useState('');
     const [cardCount, setCardCount] = useState(12);
-    const [apiKey, setApiKey] = useState(() => localStorage.getItem('sk-groq-key') || '');
-    const [showKey, setShowKey] = useState(false);
     const [genLoading, setGenLoading] = useState(false);
     const [genError, setGenError] = useState<string | null>(null);
     const [setName, setSetName] = useState('');
@@ -171,11 +169,6 @@ const FlashcardsPage: React.FC = () => {
 
     const activeSet = sets.find(s => s.id === activeSetId) ?? null;
 
-    // Save API key to localStorage
-    useEffect(() => {
-        localStorage.setItem('sk-groq-key', apiKey);
-    }, [apiKey]);
-
     // Reset card index when set changes
     useEffect(() => {
         setCardIndex(0);
@@ -188,12 +181,11 @@ const FlashcardsPage: React.FC = () => {
 
     const handleGenerate = useCallback(async () => {
         setGenError(null);
-        if (!apiKey.trim()) { setGenError('Enter your Groq API key.'); return; }
         if (!notes.trim()) { setGenError('Paste or type some notes first.'); return; }
 
         setGenLoading(true);
         try {
-            const cards = await generateFlashcards(notes, apiKey, cardCount);
+            const cards = await generateFlashcards(notes, undefined, cardCount);
             const name = setName.trim() || `Flashcard Set ${new Date().toLocaleDateString('en-IN')}`;
             addSet(name, cards);
             setTab('review');
@@ -203,7 +195,7 @@ const FlashcardsPage: React.FC = () => {
         } finally {
             setGenLoading(false);
         }
-    }, [notes, apiKey, cardCount, setName, addSet]);
+    }, [notes, cardCount, setName, addSet]);
 
     // Study mode handlers
     const studyCard = activeSet?.cards[studyIndex] ?? null;
@@ -382,34 +374,6 @@ const FlashcardsPage: React.FC = () => {
                                 </div>
                                 <p style={{ margin: 0, color: 'var(--text-muted)', fontSize: '14px', lineHeight: 1.6 }}>
                                     Paste your notes below and AI will instantly generate study flashcards with Question, Answer and Topic tags. Works with typed notes, pasted text, or lecture summaries.
-                                </p>
-                            </div>
-
-                            {/* API Key */}
-                            <div style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '14px', padding: '18px' }}>
-                                <label style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '10px' }}>
-                                    <FiKey size={13} style={{ color: VIOLET }} /> Groq API Key
-                                    <a href="https://console.groq.com" target="_blank" rel="noopener noreferrer" style={{ marginLeft: 'auto', fontSize: '12px', color: VIOLET, textDecoration: 'none' }}>
-                                        Get free key →
-                                    </a>
-                                </label>
-                                <div style={{ display: 'flex', gap: '8px' }}>
-                                    <input
-                                        type={showKey ? 'text' : 'password'}
-                                        value={apiKey}
-                                        onChange={e => setApiKey(e.target.value)}
-                                        placeholder="gsk_..."
-                                        style={inputStyle}
-                                    />
-                                    <button
-                                        onClick={() => setShowKey(k => !k)}
-                                        style={{ padding: '0 14px', borderRadius: '8px', border: '1px solid var(--border)', background: 'var(--surface-2)', color: 'var(--text-muted)', cursor: 'pointer', fontSize: '12px', fontWeight: 600, whiteSpace: 'nowrap' }}
-                                    >
-                                        {showKey ? 'Hide' : 'Show'}
-                                    </button>
-                                </div>
-                                <p style={{ margin: '8px 0 0', fontSize: '11px', color: 'var(--text-muted)' }}>
-                                    Stored in your browser only. Never sent to any server.
                                 </p>
                             </div>
 
