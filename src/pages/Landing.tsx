@@ -104,12 +104,15 @@ const Landing: React.FC = () => {
                         <span style={{ background: 'linear-gradient(135deg,#a78bfa 0%,#67e8f9 40%,#fbbf24 100%)', backgroundSize: '200% 200%', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', animation: 'gradText 4s ease infinite' }}>for Every Student.</span>
                     </h1>
                     <p style={{ fontSize: '18px', color: 'rgba(148,163,184,.9)', maxWidth: '540px', margin: '0 auto 36px', lineHeight: 1.65 }}>
-                        Whiteboard - Code Diagrams - AI Study Planner -- everything a student needs, 100% free forever.
+                        Whiteboard · Code Diagrams · AI Study Planner · AI Flashcards — everything a student needs, 100% free forever.
                     </p>
                     <div style={{ display: 'flex', gap: '14px', justifyContent: 'center', flexWrap: 'wrap' }}>
-                        <button className="sk-btn-primary" onClick={() => navigate('/canvas')}>Start Drawing -- It's Free</button>
+                        <button className="sk-btn-primary" onClick={() => navigate('/canvas')}>Start Drawing — It's Free</button>
                         <button className="sk-btn-ghost" onClick={() => navigate('/study-planner')}>
                             <FiBookOpen size={14} style={{ verticalAlign: 'middle', marginRight: '6px' }} />Study Planner
+                        </button>
+                        <button className="sk-btn-ghost" onClick={() => navigate('/flashcards')} style={{ color: '#fbbf24', borderColor: 'rgba(251,191,36,.35)' }}>
+                            <FiZap size={14} style={{ verticalAlign: 'middle', marginRight: '6px' }} />AI Flashcards ✨
                         </button>
                     </div>
 
@@ -138,7 +141,7 @@ const Landing: React.FC = () => {
                     </div>
                     <h2 style={{ fontSize: 'clamp(26px,4vw,40px)', fontWeight: 900, margin: '0 0 12px' }}>Three Powerful New Features</h2>
                     <p style={{ color: 'rgba(148,163,184,.85)', fontSize: '16px', maxWidth: '520px', lineHeight: 1.6, margin: '0 0 40px' }}>
-                        Built specifically for students and developers. Both completely free with no sign-up required.
+                        Built specifically for students and developers — including the brand-new <strong style={{ color: '#fbbf24' }}>AI Flashcards</strong>. All completely free with no sign-up required.
                     </p>
 
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '24px' }}>
@@ -303,14 +306,17 @@ const Landing: React.FC = () => {
                 <div ref={ctaRef} className="reveal" style={{ borderRadius: '24px', padding: '64px 48px', background: 'linear-gradient(135deg,#16103a 0%,#0f1729 100%)', border: '1px solid rgba(167,139,250,.18)', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
                     <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 50% 0%,rgba(124,58,237,.2) 0%,transparent 60%)', pointerEvents: 'none' }} />
                     <h2 style={{ fontSize: 'clamp(26px,4vw,42px)', fontWeight: 900, margin: '0 0 14px', position: 'relative' }}>Your Complete Visual Study Ecosystem.</h2>
-                    <p style={{ fontSize: '16px', color: 'rgba(148,163,184,.85)', margin: '0 auto 32px', maxWidth: '460px', position: 'relative' }}>Whiteboard - Code Diagrams - Study Planner - Export -- all in one place, all free.</p>
+                    <p style={{ fontSize: '16px', color: 'rgba(148,163,184,.85)', margin: '0 auto 32px', maxWidth: '520px', position: 'relative' }}>Whiteboard · Code Diagrams · Study Planner · AI Flashcards — all in one place, all free.</p>
                     <div style={{ display: 'flex', gap: '14px', justifyContent: 'center', flexWrap: 'wrap', position: 'relative' }}>
-                        <button className="sk-btn-primary" onClick={() => navigate('/canvas')}>Open Whiteboard -&gt;</button>
+                        <button className="sk-btn-primary" onClick={() => navigate('/canvas')}>Open Whiteboard →</button>
                         <button className="sk-btn-ghost" onClick={() => navigate('/study-planner')}>
                             <FiBookOpen size={14} style={{ verticalAlign: 'middle', marginRight: '6px' }} />Study Planner
                         </button>
-                        <button className="sk-btn-ghost" onClick={() => navigate('/canvas')} style={{ color: '#a78bfa', borderColor: 'rgba(167,139,250,.35)' }}>
-                            <FiCpu size={14} style={{ verticalAlign: 'middle', marginRight: '6px' }} />Code -&gt; Diagram
+                        <button className="sk-btn-ghost" onClick={() => navigate('/code-to-diagram')} style={{ color: '#a78bfa', borderColor: 'rgba(167,139,250,.35)' }}>
+                            <FiCpu size={14} style={{ verticalAlign: 'middle', marginRight: '6px' }} />Code → Diagram
+                        </button>
+                        <button className="sk-btn-ghost" onClick={() => navigate('/flashcards')} style={{ color: '#fbbf24', borderColor: 'rgba(251,191,36,.35)' }}>
+                            <FiZap size={14} style={{ verticalAlign: 'middle', marginRight: '6px' }} />AI Flashcards ✨
                         </button>
                     </div>
                 </div>
