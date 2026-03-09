@@ -6,7 +6,7 @@ import AuthPage from './pages/AuthPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import CodeToDiagramPage from './pages/CodeToDiagramPage';
 import StudyPlannerPage from './pages/StudyPlannerPage';
-import DownloadPage from './pages/DownloadPage';
+
 
 import { useThemeStore } from './store/themeStore';
 
@@ -25,7 +25,7 @@ const App: React.FC = () => {
     <Routes>
       <Route path="/" element={<Landing />} />
       <Route path="/auth" element={<AuthPage />} />
-      <Route path="/download" element={<DownloadPage />} />
+
 
       <Route path="/canvas" element={
         <ProtectedRoute>
